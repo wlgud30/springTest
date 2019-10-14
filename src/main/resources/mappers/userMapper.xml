@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userMapper">
+	<resultMap type="com.ji.test.Domain.UserVO" id="UserVOMap">
+		<result column="USER_ID" property="u_id"/>
+		<result column="USER_EMAIL" property="u_email"/>
+		<result column="USER_PW" property="u_pw"/>
+		<result column="USER_NAME" property="u_nm"/>
+		<result column="USER_BIRTH" property="u_birth"/>
+		<result column="USER_LASTLOGIN" property="u_lastLogin"/>
+		<result column="USER_DATE" property="u_joindate"/>
+		<result column="USER_SEX" property="u_sex"/>
+		<result column = "USER_ENABLED" property="u_enabled"/>
+	</resultMap>
+	<select id="loginPw" resultMap="UserVOMap">
+		SELECT USER_PW FROM test_user WHERE USER_ID = #{u_id}
+	</select>
+	<select id="login" resultMap="UserVOMap">
+		SELECT * FROM test_user WHERE USER_ID = #{u_id} AND USER_PW = #{u_pw}
+	</select>
+	
+	<select id="idCheck" resultType="int">
+		SELECT count(*) FROM TEST_USER WHERE USER_ID = #{u_id}
+	</select>
+	
+	<insert id="userJoin">
+		INSERT INTO TEST_USER VALUES(
+			#{u_id},
+			#{u_pw},
+			#{u_nm},
+			#{u_sex},
+			NULL,
+			sysdate(),
+			#{u_birth},
+			#{u_email},
+			'true'
+		)
+	</insert>
+	<insert id="userAuthority">
+		INSERT INTO TEST_USER_AUTHORITY VALUES(
+			#{u_id},
+			'USER'
+		)
+	</insert>
+	
+</mapper>
